@@ -18,6 +18,9 @@ def slope(a = Vector2D, b = Vector2D):
 def distance(a, b):
 	d = math.sqrt((a.x-b.x)**2 + (a.y-b.y)**2)
 	return d
+def mediumpoint(a, b):
+	d=((a.x+b.x)/2,(a.y+b.y)/2)
+
 class Main(Scene):
 	def construct(self):
 		text1 = Text("Ola a todos").shift((0, 2.7, 0))
