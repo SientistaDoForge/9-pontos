@@ -19,10 +19,9 @@ def distance(a, b):
 	d = math.sqrt((a.x-b.x)**2 + (a.y-b.y)**2)
 	return d
 def mediumpoint(a, b):
-	d=((a.x+b.x)/2,(a.y+b.y)/2)
+	d=Vector2D((a.x+b.x)/2,(a.y+b.y)/2)
+	return d
 
-def bosta(teste1):
-	pass
 class Main(Scene):
 	def construct(self):
 		text1 = Text("Ola a todos").shift((0, 2.7, 0))
