@@ -1,5 +1,6 @@
 from manim import *
 import time
+import math
 
 
 config.pixel_height = 1080
@@ -13,6 +14,9 @@ class Vector2D:
 		self.y = y
 def slope(a = Vector2D, b = Vector2D):
 	d = (a.x - b.x)/(a.y - b.y)
+	return d
+def distance(a, b):
+	d = math.sqrt((a.x-b.x)**2 + (a.y-b.y)**2)
 	return d
 class Main(Scene):
 	def construct(self):
@@ -42,4 +46,3 @@ class Main(Scene):
 		self.play(Create(dot2))
 
 
-#gonçaloide
