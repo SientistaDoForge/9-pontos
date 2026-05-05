@@ -12,20 +12,25 @@ class Vector2D:
 	def __init__(self, x, y):
 		self.x = x
 		self.y = y
-def slope(a = Vector2D, b = Vector2D):
+def slope(a: Vector2D, b: Vector2D):
 	d = (a.x - b.x)/(a.y - b.y)
 	return d
-def distance(a, b):
+def distance(a: Vector2D, b: Vector2D):
 	d = math.sqrt((a.x-b.x)**2 + (a.y-b.y)**2)
 	return d
-def mediumpoint(a, b):
+def mediumpoint(a: Vector2D, b: Vector2D):
 	d=Vector2D((a.x+b.x)/2,(a.y+b.y)/2)
 	return d
-def foot(ponto, declive):
+def foot(ponto: Vector2D, declive):
 	d=-1/declive
 	b=d-(-1/declive)
 	return b,d
-
+def perpendicular_bisector(a: Vector2D, b: Vector2D):
+	mx = (a.x + b.x) / 2
+	my = (a.y + b.y) / 2
+	m = -(b.x - a.x) / (b.y - a.y)
+	b = my - m * mx
+	return m, b
 class Main(Scene):
 	def construct(self):
 		text1 = Text("Ola a todos").shift((0, 2.7, 0))
