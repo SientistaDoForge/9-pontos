@@ -1,4 +1,5 @@
 from manim import *
+import time
 
 
 config.pixel_height = 1080
@@ -11,10 +12,12 @@ config.frame_rate = 60
 class Main(Scene):
 	def construct(self):
 		text1 = Text("Ola a todos").shift(UP)
+		text2 = Text("Descriçao").shift(DOWN)
 
 		# Step 1
 		self.play(Write(text1))
-		input("Press ENTER to continue...")  # waits for user input
+		time.sleep(2)
+		self.play(Write(text2))
 
 
 #gonçaloide
