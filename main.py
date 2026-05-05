@@ -21,6 +21,10 @@ def distance(a, b):
 def mediumpoint(a, b):
 	d=Vector2D((a.x+b.x)/2,(a.y+b.y)/2)
 	return d
+def foot(ponto, declive):
+	d=-1/declive
+	b=d-(-1/declive)
+	return b,d
 
 class Main(Scene):
 	def construct(self):
