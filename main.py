@@ -12,12 +12,16 @@ config.frame_rate = 60
 class Main(Scene):
 	def construct(self):
 		text1 = Text("Ola a todos").shift(UP)
-		text2 = Text("Descriçao").shift(DOWN)
+		dot = Dot(
+			point=(2, 2, 0),
+			radius=0.1,  # size
+			color=RED,  # color
+		)
 
 		# Step 1
 		self.play(Write(text1))
 		time.sleep(2)
-		self.play(Write(text2))
+		self.play(Create(dot))
 
 
 #gonçaloide
