@@ -1,0 +1,3 @@
+# This file is used internally by FFMPEG.
+file 'file:C:/Users/administrador/PycharmProjects/9Pontos/media/videos/main/480p15/partial_movie_files/Main/1584795214_1071032346_223132457.mp4'
+file 'file:C:/Users/administrador/PycharmProjects/9Pontos/media/videos/main/480p15/partial_movie_files/Main/4072820271_4166842112_3836671018.mp4'
