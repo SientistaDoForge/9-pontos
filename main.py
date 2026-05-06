@@ -49,14 +49,21 @@ class Main(Scene):
 			radius=0.1,  # size
 			color=RED,  # color
 		)
-
+		triangle = always_redraw(lambda: Polygon(
+			dot.get_center(),
+			dot1.get_center(),
+			dot2.get_center(),
+			color = WHITE
+		))
 
 		# Step 1
 		self.play(Write(text1))
 		self.wait(6.7)
 		self.play(Create(dot),
+			Create(dot),
 			Create(dot1),
-			Create(dot2)
+			Create(dot2),
+			Create(triangle)
 		)
 
 
