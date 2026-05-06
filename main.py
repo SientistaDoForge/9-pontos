@@ -16,8 +16,10 @@ class Vector2D:
 		self.y = y
 def V2D(p):
 	return Vector2D(p[0], p[1])
-def randPos():
-	pass
+def randPos(dot, ammount):
+	x = dot[0] + random.uniform(-ammount, ammount)
+	y = dot[1] + random.uniform(-ammount, ammount)
+	return x, y, dot[2]
 def slope(a: Vector2D, b: Vector2D):
 	d = (a.x - b.x)/(a.y - b.y)
 	return d
@@ -52,12 +54,12 @@ class Main(Scene):
 			color=RED,  # color
 		)
 		dot1 = Dot(
-			point=(2, -1, 0),
+			point=(2.4, -1.4, 0),
 			radius=0.1,  # size
 			color=RED,  # color
 		)
 		dot2 = Dot(
-			point=(-3, 2, 0),
+			point=(-3.7, 1.7, 0),
 			radius=0.1,  # size
 			color=RED,  # color
 		)
@@ -97,9 +99,8 @@ class Main(Scene):
 		)
 		self.wait(1)
 		self.play(
-			dot.animate.move_to((dot.get_center()[0] + random.uniform(-0.5, 0.5), dot.get_center()[1] + random.uniform(-0.5, 0.5), 0)),
-			dot1.animate.move_to((dot1.get_center()[0] + random.uniform(-0.5, 0.5), dot1.get_center()[1] + random.uniform(-0.5, 0.5), 0)),
-			dot2.animate.move_to((dot2.get_center()[0] + random.uniform(-0.5, 0.5), dot2.get_center()[1] + random.uniform(-0.5, 0.5), 0)),
+			dot.animate.move_to(randPos(dot.get_center(), 1)),
+			dot1.animate.move_to(randPos(dot1.get_center(), 1)),
+			dot2.animate.move_to(randPos(dot2.get_center(), 1)),
 		)
 		self.wait(1)
-
