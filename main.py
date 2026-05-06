@@ -31,6 +31,12 @@ def perpendicular_bisector(a: Vector2D, b: Vector2D):
 	m = -(b.x - a.x) / (b.y - a.y)
 	b = my - m * mx
 	return m, b
+def intersection(m1, m2, b1, b2):
+	x=b2-b1/(m1-m2)
+	y=m1*(b2-b1/(m1-m2))+b1
+	return Vector2D(x,y)
+
+
 class Main(Scene):
 	def construct(self):
 		text1 = Text("Ola a todos").shift((0, 2.7, 0))
