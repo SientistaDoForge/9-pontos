@@ -43,50 +43,23 @@ def intersection(m1, m2, b1, b2):
 	x=b2-b1/(m1-m2)
 	y=m1*(b2-b1/(m1-m2))+b1
 	return Vector2D(x,y)
-class pontomedio(Scene):
-	def construct(self):
-		dot = Dot(
-			point=(1, 2, 0),
-			radius=0.1,  # size
-			color=RED,  # color
-		)
-		dot1 = Dot(
-			point=(2, -1, 0),
-			radius=0.1,  # size
-			color=RED,  # color
-		)
-		dot2 = Dot(
-			point=(-3, 2, 0),
-			radius=0.1,  # size
-			color=RED,  # color
-		)
-		dot3 = Dot(
-			point=(1.5, 0.5, 0),
-			radius=0.1, color=RED,
-		)
-		dot4 = Dot(
-			point=(-1, 2, 0),
-			radius=0.1, color=RED,
-		)
-		dot5 = Dot(
-			point=(-0.5, -1.5, 0),
-			radius=0.1, color=RED,
-		)
+
+
 class Main(Scene):
 	def construct(self):
 		text1 = Text("Ola a todos").shift((0, 2.7, 0))
 		dot = Dot(
-			point=(2, 2, 0),
+			point=(2, 1.7, 0),
 			radius=0.1,  # size
 			color=RED,  # color
 		)
 		dot1 = Dot(
-			point=(2.4, -1.4, 0),
+			point=(2.9, -1.7, 0),
 			radius=0.1,  # size
 			color=RED,  # color
 		)
 		dot2 = Dot(
-			point=(-3.7, 1.7, 0),
+			point=(-3.7, 0.9, 0),
 			radius=0.1,  # size
 			color=RED,  # color
 		)
@@ -126,29 +99,54 @@ class Main(Scene):
 		)
 		self.wait(1)
 		self.play(
-			dot.animate.move_to(randPos(dot.get_center(), 1)),
-			dot1.animate.move_to(randPos(dot1.get_center(), 1)),
-			dot2.animate.move_to(randPos(dot2.get_center(), 1)),
+			dot.animate.move_to(randPos(dot1.get_center(), 0.5)),
+			dot1.animate.move_to(randPos(dot2.get_center(), 0.5)),
+			dot2.animate.move_to(randPos(dot.get_center(), 0.5)),
+		)
+		self.wait(1)
+		self.play(
+			dot.animate.move_to(randPos(dot1.get_center(), 0.5)),
+			dot1.animate.move_to(randPos(dot2.get_center(), 0.5)),
+			dot2.animate.move_to(randPos(dot.get_center(), 0.5)),
+		)
+		self.wait(1)
+		self.play(
+			dot.animate.move_to(randPos(dot1.get_center(), 0.5)),
+			dot1.animate.move_to(randPos(dot2.get_center(), 0.5)),
+			dot2.animate.move_to(randPos(dot.get_center(), 0.5)),
+		)
+		self.wait(1)
+		self.play(
+			dot.animate.move_to(randPos(dot1.get_center(), 0.5)),
+			dot1.animate.move_to(randPos(dot2.get_center(), 0.5)),
+			dot2.animate.move_to(randPos(dot.get_center(), 0.5)),
+		)
+		self.wait(1)
+		self.play(
+			dot.animate.move_to(randPos(dot1.get_center(), 0.5)),
+			dot1.animate.move_to(randPos(dot2.get_center(), 0.5)),
+			dot2.animate.move_to(randPos(dot.get_center(), 0.5)),
 		)
 		self.wait(1)
 
-		class PM(Scene):
-			def construct(self):
-				dot = Dot(point=(2, 2, 0),
+class PM(Scene):
+	def construct(self):
+		dot0 = Dot(
+			point=(2, 2, 0),
 			radius=0.1,  # size
 			color=RED
-						  )  # color
-			dot=Dot(
- 			 point=(2, 2, 0),
-		 	 radius=0.1,  # size
-		 	 color=RED,  # color
-					 	  )
+					  )  # color
+		dot=Dot(
+			point=(2, 2, 0),
+			radius=0.1,  # size
+			color=RED,  # color
+					  )
 
 		dot1 = Dot(
 			point=(2.4, -1.4, 0),
 			radius=0.1,  # size
 			color=RED,  # color
-		)
+			)
 		dot2 = Dot(
 			point=(-3.7, 1.7, 0),
 			radius=0.1,  # size
@@ -157,5 +155,6 @@ class Main(Scene):
 		pontoM1=always_redraw(lambda: Dot(
 			point=(mediumpoint(V2D(dot.get_center()), V2D(dot1.get_center())).x,
 				   mediumpoint(V2D(dot.get_center()), V2D(dot1.get_center())).y,
-				   0
-		))
+				   0),
+			))
+
