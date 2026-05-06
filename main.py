@@ -21,7 +21,7 @@ def randPos(dot, ammount):
 	y = dot[1] + random.uniform(-ammount, ammount)
 	return x, y, dot[2]
 def slope(a: Vector2D, b: Vector2D):
-	d = (a.x - b.x)/(a.y - b.y)
+	d = (a.y - b.y)/(a.x - b.x)
 	return d
 def distance(a: Vector2D, b: Vector2D):
 	d = math.sqrt((a.x-b.x)**2 + (a.y-b.y)**2)
@@ -31,7 +31,7 @@ def mediumpoint(a: Vector2D, b: Vector2D):
 	return d
 def foot(ponto: Vector2D, declive):
 	d=-1/declive
-	b=d-(-1/declive)
+	b=-(d * ponto.x) + ponto.y
 	return b,d
 def perpendicular_bisector(a: Vector2D, b: Vector2D):
 	mx = (a.x + b.x) / 2
@@ -57,12 +57,12 @@ class Main(Scene):
 		dot1 = Dot(
 			axes.coords_to_point(2.9, -1.7, 0),
 			radius=0.1,  # size
-			color=RED,  # color
+			color=GREEN,  # color
 		)
 		dot2 = Dot(
 			axes.coords_to_point(-3.7, 0.9, 0),
 			radius=0.1,  # size
-			color=RED,  # color
+			color=BLUE,  # color
 		)
 		dot3 = Dot(
 			axes.coords_to_point(2, 4),
@@ -90,7 +90,12 @@ class Main(Scene):
 				   mediumpoint(V2D(dot.get_center()), V2D(dot2.get_center())).y,
 				   0),
 		))
-		line = axes.plot(lambda x: 2 * x, color=BLUE)
+		#declive0 = slope(V2D(dot1.get_center()), V2D(dot2.get_center()))
+		#b0 , declive1 = foot(V2D(dot.get_center()), declive0)
+		line = always_redraw(lambda: axes.plot(
+			lambda x: foot(V2D(axes.point_to_coords(dot.get_center())), slope(V2D(axes.point_to_coords(dot1.get_center())), V2D(axes.point_to_coords(dot2.get_center()))))[1] * x + foot(V2D(axes.point_to_coords(dot.get_center())), slope(V2D(axes.point_to_coords(dot1.get_center())), V2D(axes.point_to_coords(dot2.get_center()))))[0], color=BLUE
+		))
+		value = always_redraw(lambda: Text(str(V2D(axes.point_to_coords(dot.get_center())).y)))
 		# Step 1
 		self.play(Write(text1))
 		self.wait(6.7)
@@ -103,7 +108,9 @@ class Main(Scene):
 			Create(PM2),
 			Create(PM3),
 			Create(line),
-			Create(dot3)
+			Create(dot3),
+			Create(axes),
+			Create(value)
 		)
 		self.wait(1)
 		self.play(
