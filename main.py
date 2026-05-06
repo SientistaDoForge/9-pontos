@@ -102,4 +102,4 @@ class Main(Scene):
 			dot2.animate.move_to((dot2.get_center()[0] + random.uniform(-0.5, 0.5), dot2.get_center()[1] + random.uniform(-0.5, 0.5), 0)),
 		)
 		self.wait(1)
-
+#gonçaloroso
