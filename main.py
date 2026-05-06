@@ -1,3 +1,5 @@
+import random
+
 from manim import *
 import time
 import math
@@ -12,6 +14,10 @@ class Vector2D:
 	def __init__(self, x, y):
 		self.x = x
 		self.y = y
+def V2D(p):
+	return Vector2D(p[0], p[1])
+def randPos():
+	pass
 def slope(a: Vector2D, b: Vector2D):
 	d = (a.x - b.x)/(a.y - b.y)
 	return d
@@ -61,15 +67,39 @@ class Main(Scene):
 			dot2.get_center(),
 			color = WHITE
 		))
+		PM1 = always_redraw(lambda: Dot(
+			point=(mediumpoint(V2D(dot.get_center()), V2D(dot1.get_center())).x,
+				   mediumpoint(V2D(dot.get_center()), V2D(dot1.get_center())).y,
+				   0),
+		))
+		PM2 = always_redraw(lambda: Dot(
+			point=(mediumpoint(V2D(dot1.get_center()), V2D(dot2.get_center())).x,
+				   mediumpoint(V2D(dot1.get_center()), V2D(dot2.get_center())).y,
+				   0),
+		))
+		PM3 = always_redraw(lambda: Dot(
+			point=(mediumpoint(V2D(dot.get_center()), V2D(dot2.get_center())).x,
+				   mediumpoint(V2D(dot.get_center()), V2D(dot2.get_center())).y,
+				   0),
+		))
 
 		# Step 1
 		self.play(Write(text1))
 		self.wait(6.7)
-		self.play(Create(dot),
+		self.play(
 			Create(dot),
 			Create(dot1),
 			Create(dot2),
-			Create(triangle)
+			Create(triangle),
+			Create(PM1),
+			Create(PM2),
+			Create(PM3)
 		)
-
+		self.wait(1)
+		self.play(
+			dot.animate.move_to((dot.get_center()[0] + random.uniform(-0.5, 0.5), dot.get_center()[1] + random.uniform(-0.5, 0.5), 0)),
+			dot1.animate.move_to((dot1.get_center()[0] + random.uniform(-0.5, 0.5), dot1.get_center()[1] + random.uniform(-0.5, 0.5), 0)),
+			dot2.animate.move_to((dot2.get_center()[0] + random.uniform(-0.5, 0.5), dot2.get_center()[1] + random.uniform(-0.5, 0.5), 0)),
+		)
+		self.wait(1)
 
