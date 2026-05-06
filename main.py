@@ -60,8 +60,9 @@ class Main(Scene):
 		# Step 1
 		self.play(Write(text1))
 		self.wait(6.7)
-		self.play(Create(dot))
-		self.play(Create(dot1))
-		self.play(Create(dot2))
+		self.play(Create(dot),
+			Create(dot1),
+			Create(dot2)
+		)
 
 
