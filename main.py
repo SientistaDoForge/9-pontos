@@ -104,3 +104,4 @@ class Main(Scene):
 			dot2.animate.move_to(randPos(dot2.get_center(), 1)),
 		)
 		self.wait(1)
+#a
