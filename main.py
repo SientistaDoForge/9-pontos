@@ -7,8 +7,8 @@ import math
 
 config.pixel_height = 1080
 config.pixel_width = 1920
-config.frame_height = 7.0  # physical units for scene height
-config.frame_width = 12.0  # physical units for scene width
+config.frame_height = 14.0  # physical units for scene height
+config.frame_width = 14.0  # physical units for scene width
 config.frame_rate = 60
 class Vector2D:
 	def __init__(self, x, y):
@@ -48,20 +48,26 @@ def intersection(m1, m2, b1, b2):
 class Main(Scene):
 	def construct(self):
 		text1 = Text("Ola a todos").shift((0, 2.7, 0))
+		axes = Axes(x_range=[-8.888, 8.888], y_range=[-5, 5])
 		dot = Dot(
-			point=(2, 1.7, 0),
+			axes.coords_to_point(2, 1.7, 0),
 			radius=0.1,  # size
 			color=RED,  # color
 		)
 		dot1 = Dot(
-			point=(2.9, -1.7, 0),
+			axes.coords_to_point(2.9, -1.7, 0),
 			radius=0.1,  # size
 			color=RED,  # color
 		)
 		dot2 = Dot(
-			point=(-3.7, 0.9, 0),
+			axes.coords_to_point(-3.7, 0.9, 0),
 			radius=0.1,  # size
 			color=RED,  # color
+		)
+		dot3 = Dot(
+			axes.coords_to_point(2, 4),
+			radius=0.1,
+			color=RED,
 		)
 		triangle = always_redraw(lambda: Polygon(
 			dot.get_center(),
@@ -84,7 +90,7 @@ class Main(Scene):
 				   mediumpoint(V2D(dot.get_center()), V2D(dot2.get_center())).y,
 				   0),
 		))
-
+		line = axes.plot(lambda x: 2 * x, color=BLUE)
 		# Step 1
 		self.play(Write(text1))
 		self.wait(6.7)
@@ -95,7 +101,9 @@ class Main(Scene):
 			Create(triangle),
 			Create(PM1),
 			Create(PM2),
-			Create(PM3)
+			Create(PM3),
+			Create(line),
+			Create(dot3)
 		)
 		self.wait(1)
 		self.play(
