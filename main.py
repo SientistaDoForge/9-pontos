@@ -90,12 +90,24 @@ class Main(Scene):
 				   mediumpoint(V2D(dot.get_center()), V2D(dot2.get_center())).y,
 				   0),
 		))
-		#declive0 = slope(V2D(dot1.get_center()), V2D(dot2.get_center()))
-		#b0 , declive1 = foot(V2D(dot.get_center()), declive0)
+		d1 = lambda: slope(V2D(axes.point_to_coords(dot1.get_center())), V2D(axes.point_to_coords(dot2.get_center())))
+		f1 = lambda: foot(V2D(axes.point_to_coords(dot.get_center())), d1())
 		line = always_redraw(lambda: axes.plot(
-			lambda x: foot(V2D(axes.point_to_coords(dot.get_center())), slope(V2D(axes.point_to_coords(dot1.get_center())), V2D(axes.point_to_coords(dot2.get_center()))))[1] * x + foot(V2D(axes.point_to_coords(dot.get_center())), slope(V2D(axes.point_to_coords(dot1.get_center())), V2D(axes.point_to_coords(dot2.get_center()))))[0], color=BLUE
+			lambda x: f1()[1] * x + f1()[0], color=BLUE
 		))
-		value = always_redraw(lambda: Text(str(V2D(axes.point_to_coords(dot.get_center())).y)))
+		d2 = lambda: slope(V2D(axes.point_to_coords(dot.get_center())), V2D(axes.point_to_coords(dot2.get_center())))
+		f2 = lambda: foot(V2D(axes.point_to_coords(dot1.get_center())), d2())
+		line1 = always_redraw(lambda: axes.plot(
+			lambda x: f2()[1] * x + f2()[0], color=BLUE
+		))
+		d3 = lambda: slope(V2D(axes.point_to_coords(dot1.get_center())), V2D(axes.point_to_coords(dot.get_center())))
+		f3 = lambda: foot(V2D(axes.point_to_coords(dot2.get_center())), d3())
+		line2 = always_redraw(lambda: axes.plot(
+			lambda x: f3()[1] * x + f3()[0], color=BLUE
+		))
+		line3 = always_redraw(lambda: axes.plot(
+			lambda x: d1() * x + d1() * -axes.point_to_coords(dot1.get_center())[0] + axes.point_to_coords(dot1.get_center())[1]
+		))
 		# Step 1
 		self.play(Write(text1))
 		self.wait(6.7)
@@ -110,7 +122,9 @@ class Main(Scene):
 			Create(line),
 			Create(dot3),
 			Create(axes),
-			Create(value)
+			Create(line1),
+			Create(line2),
+			Create(line3)
 		)
 		self.wait(1)
 		self.play(
