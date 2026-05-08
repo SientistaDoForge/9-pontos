@@ -108,6 +108,13 @@ class Main(Scene):
 		line3 = always_redraw(lambda: axes.plot(
 			lambda x: d1() * x + d1() * -axes.point_to_coords(dot1.get_center())[0] + axes.point_to_coords(dot1.get_center())[1]
 		))
+		p1 = lambda: intersection(
+			d1(), f1()[1], d1() * -axes.point_to_coords(dot1.get_center())[0] + axes.point_to_coords(dot1.get_center())[1], f1()[1])
+		pe1 = always_redraw(lambda: Dot(
+			point = (p1().x, p1().y, 0),
+			radius = 0.1,
+			color = WHITE,
+		))
 		# Step 1
 		self.play(Write(text1))
 		self.wait(6.7)
