@@ -29,10 +29,10 @@ def distance(a: Vector2D, b: Vector2D):
 def mediumpoint(a: Vector2D, b: Vector2D):
 	d=Vector2D((a.x+b.x)/2,(a.y+b.y)/2)
 	return d
-def foot(ponto: Vector2D, declive):
-	d=-1/declive
-	b=-(d * ponto.x) + ponto.y
-	return b,d
+def foot(a: Vector2D, m1, m2, b):
+	x=(a.x+m1*(a.y-b))/(m1*m2+1)
+	y=m1*x+b
+	return x,y
 def perpendicular_bisector(a: Vector2D, b: Vector2D):
 	mx = (a.x + b.x) / 2
 	my = (a.y + b.y) / 2
