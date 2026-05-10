@@ -40,8 +40,8 @@ def perpendicular_bisector(a: Vector2D, b: Vector2D):
 	b = my - m * mx
 	return m, b
 def intersection(m1, m2, b1, b2):
-	x=b2-b1/(m1-m2)
-	y=m1*(b2-b1/(m1-m2))+b1
+	x=(b2-b1)/(m1-m2)
+	y=m1*((b2-b1)/(m1-m2))+b1
 	return Vector2D(x,y)
 
 
@@ -109,12 +109,13 @@ class Main(Scene):
 			lambda x: d1() * x + d1() * -axes.point_to_coords(dot1.get_center())[0] + axes.point_to_coords(dot1.get_center())[1]
 		))
 		p1 = lambda: intersection(
-			d1(), f1()[1], d1() * -axes.point_to_coords(dot1.get_center())[0] + axes.point_to_coords(dot1.get_center())[1], f1()[1])
+			d1(), f1()[1], d1() * -axes.point_to_coords(dot1.get_center())[0] + axes.point_to_coords(dot1.get_center())[1], f1()[0])
 		pe1 = always_redraw(lambda: Dot(
-			point = (p1().x, p1().y, 0),
+			point = axes.coords_to_point(p1().x, p1().y, 0 ), #axes.coords_to_point
 			radius = 0.1,
 			color = WHITE,
 		))
+		print(d1(), f1()[1], d1() * -axes.point_to_coords(dot1.get_center())[0] + axes.point_to_coords(dot1.get_center())[1], f1()[0])
 		# Step 1
 		self.play(Write(text1))
 		self.wait(6.7)
@@ -131,7 +132,8 @@ class Main(Scene):
 			Create(axes),
 			Create(line1),
 			Create(line2),
-			Create(line3)
+			Create(line3),
+			Create(pe1)
 		)
 		self.wait(1)
 		self.play(
