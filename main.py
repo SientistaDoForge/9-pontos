@@ -4,7 +4,7 @@ from manim import *
 import time
 import math
 
-
+config.assets_dir = "Images"  # folder relative to main.py
 config.pixel_height = 1080
 config.pixel_width = 1920
 config.frame_height = 14.0  # physical units for scene height
@@ -195,4 +195,57 @@ class PM(Scene):
 				   mediumpoint(V2D(dot.get_center()), V2D(dot1.get_center())).y,
 				   0),
 			))
+
+class Amir(Scene):
+	def construct(self):
+		line1 = Line(
+			start=(-6, 0, 0),
+			end=(6, 0, 0),
+			color=WHITE)
+
+		line2=Line(
+			start=(0, -6, 0),
+			end=(0, 6, 0),
+			color=WHITE)
+
+
+		self.play(
+			Create(line1),
+				Create(line2),
+		)
+
+		img = ImageMobject("image-removebg-preview")
+		img.scale(0.6)                    # resize
+		img.move_to((0, 0., 0))         # center it
+		          # offset position
+
+		self.play(FadeIn(img))
+		self.play(img.animate.move_to((-3, 2., 0)))
+		self.wait(2)
+
+		img1 = ImageMobject("9pcircle03.svg")
+		img1.scale(0.44)  # resize
+		img1.move_to((0, 0, 0))  # center it
+		# offset position
+
+		self.play(FadeIn(img1))
+		self.play(img1.animate.move_to((3, 2.1, 0)))
+		self.wait(2)
+		img2 = ImageMobject("314c33e6-839c-4ffe-88f4-381e14f789b1-removebg-preview")
+		img2.scale(0.6)  # resize
+		img2.move_to((0, 0, 0))  # center it
+		# offset position
+
+		self.play(FadeIn(img2))
+		self.play(img2.animate.move_to((-3, -2.3, 0)))
+		self.wait(2)
+
+		img3 = ImageMobject("f5bbcb0b-d75d-4de0-99ec-43d2004d905e-removebg-preview")
+		img3.scale(0.6)  # resize
+		img3.move_to((0, 0, 0))  # center it
+		# offset position
+
+		self.play(FadeIn(img3))
+		self.play(img3.animate.move_to((3, -2.3, 0)))
+		self.wait(2)
 
