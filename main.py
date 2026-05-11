@@ -32,7 +32,7 @@ def mediumpoint(a: Vector2D, b: Vector2D):
 def foot(ponto: Vector2D, declive):
 	d=-1/declive
 	b=-(d * ponto.x) + ponto.y
-	return b,d#pe
+	return b,d#pee
 def perpendicular_bisector(a: Vector2D, b: Vector2D):
 	mx = (a.x + b.x) / 2
 	my = (a.y + b.y) / 2
