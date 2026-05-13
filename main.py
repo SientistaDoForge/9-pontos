@@ -7,8 +7,8 @@ import math
 config.assets_dir = "Images"  # folder relative to main.py
 config.pixel_height = 1080
 config.pixel_width = 1920
-config.frame_height = 14.0  # physical units for scene height
-config.frame_width = 14.0  # physical units for scene width
+config.frame_height = 8.0
+config.frame_width = 14.222  # 8 * (16/9)  # physical units for scene width
 config.frame_rate = 60
 class Vector2D:
 	def __init__(self, x, y):
@@ -48,7 +48,10 @@ def intersection(m1, m2, b1, b2):
 class Main(Scene):
 	def construct(self):
 		text1 = Text("Ola a todos").shift((0, 2.7, 0))
-		axes = Axes(x_range=[-8.888, 8.888], y_range=[-5, 5])
+		axes = Axes(
+			x_range=[-12, 12],  # wider to match the wider frame
+			y_range=[-7, 7],
+		)
 		dot = Dot(
 			axes.coords_to_point(2, 1.7, 0),
 			radius=0.03,  # size
@@ -105,8 +108,10 @@ class Main(Scene):
 			V2D(axes.point_to_coords(dot1.get_center())), V2D(axes.point_to_coords(dot2.get_center()))
 		)
 		f1 = lambda: foot(V2D(axes.point_to_coords(dot.get_center())), d1())
-		line = always_redraw(lambda: axes.plot(
-			lambda x: f1()[1] * x + f1()[0], color=BLUE
+		line = always_redraw(lambda: DashedVMobject(
+			axes.plot(lambda x: f1()[1] * x + f1()[0], color=BLUE),
+			num_dashes=100,
+			dashed_ratio=0.5,
 		))
 		#DECLIVE DO PE 2
 		d2 = lambda: slope(
@@ -210,16 +215,16 @@ class Main(Scene):
 			Create(PM1),
 			Create(PM2),
 			Create(PM3),
-			#Create(line),
+			Create(line),
 			Create(dot3),
-			#Create(axes),
+			Create(axes),
 			#Create(line1),
 			#Create(line2),
 			Create(pe1),
 			Create(pe2),
 			Create(pe3),
 			Create(ortocentro),
-			Create(mediatriz),
+			#Create(mediatriz),
 			Create(circuncentro),
 			Create(dot4),
 			Create(dot5),
