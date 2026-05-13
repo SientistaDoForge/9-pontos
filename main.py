@@ -1,4 +1,6 @@
 import random
+from asyncio import wait
+from turtledemo.minimal_hanoi import play
 
 from manim import *
 import time
@@ -344,3 +346,161 @@ class Amir(Scene):
 		self.play(img3.animate.move_to((3, -2.3, 0)))
 		self.wait(2)
 
+class Amir2(Scene):
+	def construct(self):
+		axes = Axes(
+			x_range=[-12, 12],  # wider to match the wider frame
+			y_range=[-7, 7],
+		)
+		dot = Dot(
+			axes.coords_to_point(7, 6.5, 0),
+			radius=0.03,  # size
+			color=RED,  # color
+			fill_opacity=0
+		)
+		self.play(FadeIn(dot))
+		self.wait(1)
+		dot1 = Dot(
+			axes.coords_to_point(6.7, -7, 0),
+			radius=0.03,  # size
+			color=GREEN,  # color
+			fill_opacity=0
+		)
+		self.play(FadeIn(dot1))
+		self.wait(1)
+		dot2 = Dot(
+			axes.coords_to_point(-8.5, 0, 0),
+			radius=0.03,  # size
+			color=BLUE,  # color
+			fill_opacity=0
+		)
+		self.play(FadeIn(dot2))
+		self.wait(1)
+
+		triangle = always_redraw(lambda: Polygon(
+			dot.get_center(),
+			dot1.get_center(),
+			dot2.get_center(),
+			dot.get_center(),
+			stroke_color=PURPLE,
+			stroke_opacity=0.5,
+			fill_color=PURPLE,
+			fill_opacity=0.5,
+		).round_corners(radius=0.005))
+		self.play(FadeIn(triangle))
+		self.wait(2)
+
+		PM1 = always_redraw(lambda: Dot(
+			point=(mediumpoint(V2D(dot.get_center()), V2D(dot1.get_center())).x,
+			       mediumpoint(V2D(dot.get_center()), V2D(dot1.get_center())).y,
+			       0),
+			radius=0.03
+		))
+		PM2 = always_redraw(lambda: Dot(
+			point=(mediumpoint(V2D(dot1.get_center()), V2D(dot2.get_center())).x,
+			       mediumpoint(V2D(dot1.get_center()), V2D(dot2.get_center())).y,
+			       0),
+			radius=0.03
+		))
+		PM3 = always_redraw(lambda: Dot(
+			point=(mediumpoint(V2D(dot.get_center()), V2D(dot2.get_center())).x,
+			       mediumpoint(V2D(dot.get_center()), V2D(dot2.get_center())).y,
+			       0),
+			radius=0.03
+		))
+		self.play(FadeIn(PM1, PM2, PM3))
+		self.wait(2)
+		# DECLIVE DO PE 1
+		d1 = lambda: slope(
+			V2D(axes.point_to_coords(dot1.get_center())), V2D(axes.point_to_coords(dot2.get_center()))
+		)
+		f1 = lambda: foot(V2D(axes.point_to_coords(dot.get_center())), d1())
+		line = always_redraw(lambda: DashedVMobject(
+			axes.plot(lambda x: f1()[1] * x + f1()[0], color=BLUE),
+			num_dashes=100,
+			dashed_ratio=0.5,
+		))
+		# DECLIVE DO PE 2
+		d2 = lambda: slope(
+			V2D(axes.point_to_coords(dot.get_center())), V2D(axes.point_to_coords(dot2.get_center()))
+		)
+		f2 = lambda: foot(V2D(axes.point_to_coords(dot1.get_center())), d2())
+		line1 = always_redraw(lambda: axes.plot(
+			lambda x: f2()[1] * x + f2()[0], color=BLUE
+		))
+		# DECLIVE DO PE 3
+		d3 = lambda: slope(
+			V2D(axes.point_to_coords(dot1.get_center())), V2D(axes.point_to_coords(dot.get_center()))
+		)
+		f3 = lambda: foot(V2D(axes.point_to_coords(dot2.get_center())), d3())
+		line2 = always_redraw(lambda: axes.plot(
+			lambda x: f3()[1] * x + f3()[0], color=BLUE
+		))
+		self.play(FadeIn(line1, line2, line))
+		self.wait(3)
+		self.play(FadeOut(line1, line2, line))
+		p1 = lambda: intersection(
+			d1(), f1()[1],
+			d1() * -axes.point_to_coords(dot1.get_center())[0] + axes.point_to_coords(dot1.get_center())[1], f1()[0]
+		)
+		pe1 = always_redraw(lambda: Dot(
+			point=axes.coords_to_point(p1().x, p1().y, 0),  # axes.coords_to_point
+			radius=0.03,
+			color=WHITE,
+		))
+		# PE 2
+		p2 = lambda: intersection(
+			d2(), f2()[1],
+			d2() * - axes.point_to_coords(dot2.get_center())[0] + axes.point_to_coords(dot2.get_center())[1], f2()[0]
+		)
+		pe2 = always_redraw(lambda: Dot(
+			point=axes.coords_to_point(p2().x, p2().y, 0),
+			radius=0.03,
+			color=WHITE,
+		))
+		# PE 3
+		p3 = lambda: intersection(
+			d3(), f3()[1],
+			d3() * - axes.point_to_coords(dot.get_center())[0] + axes.point_to_coords(dot.get_center())[1], f3()[0]
+		)
+		pe3 = always_redraw(lambda: Dot(
+			point=axes.coords_to_point(p3().x, p3().y, 0),
+			radius=0.03,
+			color=WHITE,
+		))
+		self.play(FadeIn(pe1, pe2, pe3))
+		self.wait(2)
+
+		ortoc = lambda: intersection(
+			f1()[1], f2()[1], f1()[0], f2()[0]
+		)
+		ortocentro = always_redraw(lambda: Dot(
+			point=axes.coords_to_point(ortoc().x, ortoc().y, 0),
+			radius=0.03,
+			color=GREEN,
+		))
+		self.play(FadeIn(ortocentro))
+		self.wait(2)
+
+		PM4 = always_redraw(lambda: Dot(
+			point=(mediumpoint(V2D(dot.get_center()), V2D(ortocentro.get_center())).x,
+			       mediumpoint(V2D(dot.get_center()), V2D(ortocentro.get_center())).y,
+			       0),
+			radius=0.03
+		))
+		PM5 = always_redraw(lambda: Dot(
+			point=(mediumpoint(V2D(dot1.get_center()), V2D(ortocentro.get_center())).x,
+			       mediumpoint(V2D(dot1.get_center()), V2D(ortocentro.get_center())).y,
+			       0),
+			radius=0.03
+		))
+		PM6 = always_redraw(lambda: Dot(
+			point=(mediumpoint(V2D(dot2.get_center()), V2D(ortocentro.get_center())).x,
+			       mediumpoint(V2D(dot2.get_center()), V2D(ortocentro.get_center())).y,
+			       0),
+			radius=0.03
+		))
+		self.play(FadeIn(PM4, PM5, PM6))
+		m = lambda: perpendicular_bisector(V2D(dot1.get_center()), V2D(dot2.get_center()))
+
+		)
