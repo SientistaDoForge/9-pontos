@@ -212,12 +212,12 @@ class Main(Scene):
 			circ(), ortoc()
 		)
 		raio = lambda: distance(
-			centro(), V2D(PM1.get_center())
+			 ncentro(), V2D(PM1.get_center())
 		)
 		circle = always_redraw(lambda: Circle(
 			radius = raio(),
 			color = PINK,
-		)).move_to((centro().x, centro().y, 0))
+		).move_to(axes.coords_to_point(centro().x, centro().y, 0)))
 		center = always_redraw(lambda: Dot(
 			point = axes.coords_to_point(centro().x, centro().y, 0),
 			color=RED
@@ -521,4 +521,3 @@ class Amir2(Scene):
 		self.play(FadeIn(PM4, PM5, PM6))
 		m = lambda: perpendicular_bisector(V2D(dot1.get_center()), V2D(dot2.get_center()))
 
-		)
