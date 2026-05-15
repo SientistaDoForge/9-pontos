@@ -1,6 +1,5 @@
 import random
 from asyncio import wait
-from turtledemo.minimal_hanoi import play
 
 from manim import *
 import time
@@ -9,8 +8,8 @@ import math
 config.assets_dir = "Images"  # folder relative to main.py
 config.pixel_height = 1080
 config.pixel_width = 1920
-config.frame_height = 12
-config.frame_width = 12  # 8 * (16/9)  # physical units for scene width
+config.frame_height = 8
+config.frame_width = 14.2222  # physical units for scene width
 config.frame_rate = 60
 class Vector2D:
 	def __init__(self, x, y):
@@ -51,8 +50,10 @@ class Main(Scene):
 	def construct(self):
 		text1 = Text("Ola a todos").shift((0, 2.7, 0))
 		axes = Axes(
-			x_range=[-12, 12],  # wider to match the wider frame
-			y_range=[-7, 7],
+			x_range=[-14.2222, 14.2222],
+			x_length=14.2222,
+			y_range=[-8, 8],
+			y_length=8,
 		)
 		dot = Dot(
 			axes.coords_to_point(2, 1.7, 0),
@@ -91,7 +92,8 @@ class Main(Scene):
 			point=(mediumpoint(V2D(dot.get_center()), V2D(dot1.get_center())).x,
 				   mediumpoint(V2D(dot.get_center()), V2D(dot1.get_center())).y,
 				   0),
-			radius=0.03
+			radius=0.03,
+			color=GRAY
 		))
 		PM2 = always_redraw(lambda: Dot(
 			point=(mediumpoint(V2D(dot1.get_center()), V2D(dot2.get_center())).x,
@@ -177,6 +179,10 @@ class Main(Scene):
 		med2 = lambda: perpendicular_bisector(
 			V2D(axes.point_to_coords(dot1.get_center())), V2D(axes.point_to_coords(dot2.get_center()))
 		)
+		mediatriz1 = always_redraw(lambda: axes.plot(
+			lambda x: med2()[0] * x + med2()[1],
+			color=RED,
+		))
 		circ = lambda: intersection(
 			med1()[0], med2()[0], med1()[1], med2()[1]
 		)
@@ -212,7 +218,8 @@ class Main(Scene):
 			circ(), ortoc()
 		)
 		raio = lambda: distance(
-			 ncentro(), V2D(PM1.get_center())
+			V2D(axes.coords_to_point(centro().x, centro().y, 0)),
+			V2D(PM1.get_center())
 		)
 		circle = always_redraw(lambda: Circle(
 			radius = raio(),
@@ -234,7 +241,7 @@ class Main(Scene):
 			Create(PM2),
 			Create(PM3),
 			Create(line),
-			#Create(dot3),
+			Create(dot3),
 			#Create(axes),
 			Create(line1),
 			Create(line2),
@@ -243,36 +250,13 @@ class Main(Scene):
 			Create(pe3),
 			Create(ortocentro),
 			Create(mediatriz),
+			Create(mediatriz1),
 			Create(circuncentro),
 			Create(dot4),
 			Create(dot5),
 			Create(dot6),
 			Create(circle),
 			Create(center)
-		)
-		self.wait(1)
-		self.play(
-			dot.animate.move_to(randPos(dot1.get_center(), 0.5)),
-			dot1.animate.move_to(randPos(dot2.get_center(), 0.5)),
-			dot2.animate.move_to(randPos(dot.get_center(), 0.5)),
-		)
-		self.wait(1)
-		self.play(
-			dot.animate.move_to(randPos(dot1.get_center(), 0.5)),
-			dot1.animate.move_to(randPos(dot2.get_center(), 0.5)),
-			dot2.animate.move_to(randPos(dot.get_center(), 0.5)),
-		)
-		self.wait(1)
-		self.play(
-			dot.animate.move_to(randPos(dot1.get_center(), 0.5)),
-			dot1.animate.move_to(randPos(dot2.get_center(), 0.5)),
-			dot2.animate.move_to(randPos(dot.get_center(), 0.5)),
-		)
-		self.wait(1)
-		self.play(
-			dot.animate.move_to(randPos(dot1.get_center(), 0.5)),
-			dot1.animate.move_to(randPos(dot2.get_center(), 0.5)),
-			dot2.animate.move_to(randPos(dot.get_center(), 0.5)),
 		)
 		self.wait(1)
 		self.play(
