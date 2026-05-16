@@ -143,6 +143,12 @@ class Main(Scene):
 			radius = 0.03,
 			color = WHITE,
 		))
+		altura1 = always_redraw(lambda: Line(
+			start = axes.coords_to_point(p1().x, p1().y, 0 ),
+			end = dot.get_center(),
+			color= BLUE,
+			stroke_opacity=0.3,
+		))
 		#PE 2
 		p2 = lambda: intersection(
 			d2(), f2()[1], d2() * - axes.point_to_coords(dot2.get_center())[0] + axes.point_to_coords(dot2.get_center())[1], f2()[0]
@@ -152,6 +158,12 @@ class Main(Scene):
 			radius=0.03,
 			color = WHITE,
 		))
+		altura2 = always_redraw(lambda: Line(
+			start=axes.coords_to_point(p2().x, p2().y, 0 ),
+			end=dot1.get_center(),
+			color=BLUE,
+			stroke_opacity=0.3,
+		))
 		#PE 3
 		p3 = lambda: intersection(
 			d3(), f3()[1], d3() * - axes.point_to_coords(dot.get_center())[0] + axes.point_to_coords(dot.get_center())[1], f3()[0]
@@ -160,6 +172,12 @@ class Main(Scene):
 			point = axes.coords_to_point(p3().x, p3().y, 0 ),
 			radius=0.03,
 			color = WHITE,
+		))
+		altura3 = always_redraw(lambda: Line(
+			start=axes.coords_to_point(p3().x, p3().y, 0),
+			end=dot2.get_center(),
+			color=BLUE,
+			stroke_opacity=0.3,
 		))
 		ortoc = lambda: intersection(
 			f1()[1], f2()[1], f1()[0], f2()[0]
@@ -224,6 +242,7 @@ class Main(Scene):
 		circle = always_redraw(lambda: Circle(
 			radius = raio(),
 			color = PINK,
+			stroke_opacity=0.4
 		).move_to(axes.coords_to_point(centro().x, centro().y, 0)))
 		center = always_redraw(lambda: Dot(
 			point = axes.coords_to_point(centro().x, centro().y, 0),
@@ -240,31 +259,35 @@ class Main(Scene):
 			Create(PM1),
 			Create(PM2),
 			Create(PM3),
-			Create(line),
-			Create(dot3),
+			#Create(line),
+			#Create(dot3),
 			#Create(axes),
-			Create(line1),
-			Create(line2),
+			#Create(line1),
+			#Create(line2),
 			Create(pe1),
 			Create(pe2),
 			Create(pe3),
-			Create(ortocentro),
-			Create(mediatriz),
-			Create(mediatriz1),
-			Create(circuncentro),
+			#Create(ortocentro),
+			#Create(mediatriz),
+			#Create(mediatriz1),
+			#Create(circuncentro),
 			Create(dot4),
 			Create(dot5),
 			Create(dot6),
 			Create(circle),
-			Create(center)
+			Create(center),
+			Create(altura1),
+			Create(altura2),
+			Create(altura3),
 		)
 		self.wait(1)
-		self.play(
-			dot.animate.move_to(randPos(dot1.get_center(), 0.5)),
-			dot1.animate.move_to(randPos(dot2.get_center(), 0.5)),
-			dot2.animate.move_to(randPos(dot.get_center(), 0.5)),
-		)
-		self.wait(1)
+		for i in range(10):
+			self.play(
+				dot.animate.move_to(randPos(dot1.get_center(), 0.5)),
+				dot1.animate.move_to(randPos(dot2.get_center(), 0.5)),
+				dot2.animate.move_to(randPos(dot.get_center(), 0.5)),
+			)
+			self.wait(1)
 
 class PM(Scene):
 	def construct(self):
