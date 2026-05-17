@@ -535,24 +535,26 @@ class Amir3(Scene):
 			x_length=14.2222,
 			y_range=[-8, 8],
 			y_length=8,
-		)
+			tips=False,
+
+		).set_opacity(0.5).shift((1.5, -0.5, 0)).set_z_index(-1)
 		dot = Dot(
 			axes.coords_to_point(2, 1.7, 0),
-			radius=0.03,  # size
+			radius=0.05,  # size
 			color=RED,  # color
-			fill_opacity=0
+			fill_opacity=0.7
 		)
 		dot1 = Dot(
 			axes.coords_to_point(2.9, -3, 0),
-			radius=0.03,  # size
+			radius=0.05,  # size
 			color=GREEN,  # color
-			fill_opacity=0
+			fill_opacity=0.7
 		)
 		dot2 = Dot(
 			axes.coords_to_point(-4.5, 0, 0),
-			radius=0.03,  # size
+			radius=0.05,  # size
 			color=BLUE,  # color
-			fill_opacity=0
+			fill_opacity=0.7
 		)
 		dot3 = Dot(
 			axes.coords_to_point(2, 4),
@@ -574,7 +576,6 @@ class Amir3(Scene):
 				   mediumpoint(V2D(dot.get_center()), V2D(dot1.get_center())).y,
 				   0),
 			radius=0.03,
-			color=GRAY
 		))
 		PM2 = always_redraw(lambda: Dot(
 			point=(mediumpoint(V2D(dot1.get_center()), V2D(dot2.get_center())).x,
@@ -729,3 +730,63 @@ class Amir3(Scene):
 			point = axes.coords_to_point(centro().x, centro().y, 0),
 			color=RED
 		))
+		texttrespontos = Text(
+			"Defenir três pontos no plano.."
+		).shift((-3, 3, 0)).scale(0.5).to_edge(LEFT)
+		texttriangulo = Text(
+			"Desenhar o triângulo que conecta os três pontos.."
+		).shift((-3, 3, 0)).scale(0.5).to_edge(LEFT)
+		textpm = Text(
+			"Desenhar os pontos médios dos vértices do triângulo.."
+		).shift((-3, 3, 0)).scale(0.5).to_edge(LEFT)
+		textoaltura = Text(
+			"Desenhar as alturas do triângulo"
+		).shift((-3, 3, 0)).scale(0.5).to_edge(LEFT)
+		textointer = Text(
+			"e marcar os pontos de interseção das mesmas com o triangulo.."
+		).shift((-3, 2.6, 0)).scale(0.5).to_edge(LEFT)
+		self.play(
+			Write(texttrespontos),
+		)
+		self.wait(0.3)
+		self.play(Create(axes))
+		self.wait(1)
+		self.play(Create(dot))
+		self.wait(0.3)
+		self.play(Create(dot1))
+		self.wait(0.3)
+		self.play(Create(dot2))
+		self.wait(2)
+		self.play(
+			Unwrite(texttrespontos),
+			Write(texttriangulo)
+				  )
+		self.wait(0.5)
+		self.play(Write(triangle), run_time=4, rate_func=linear)
+		self.play(
+			Unwrite(texttriangulo),
+			Write(textpm)
+		)
+		self.wait(2)
+		self.play(Create(PM1))
+		self.wait(0.5)
+		self.play(Create(PM2))
+		self.wait(0.5)
+		self.play(Create(PM3))
+		self.wait(2)
+		self.play(
+			Unwrite(textpm),
+			Write(textoaltura),
+			Write(textointer),
+		)
+		self.play(Create(altura1))
+		self.wait(0.5)
+		self.play(Create(altura2))
+		self.wait(0.5)
+		self.play(Create(altura3))
+		self.wait(0.5)
+		self.play(Create(pe1))
+		self.wait(0.5)
+		self.play(Create(pe2))
+		self.wait(0.5)
+		self.play(Create(pe3))
