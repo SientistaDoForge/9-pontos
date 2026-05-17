@@ -526,5 +526,206 @@ class Amir2(Scene):
 			radius=0.03
 		))
 		self.play(FadeIn(PM4, PM5, PM6))
-		m = lambda: perpendicular_bisector(V2D(dot1.get_center()), V2D(dot2.get_center()))
-
+		m = lambda: perpendicular_bisector(V2D(dot1.get_center()),  V2D(dot2.get_center()))
+class Amir3(Scene):
+	def construct(self):
+		text1 = Text("Ola a todos").shift((0, 2.7, 0))
+		axes = Axes(
+			x_range=[-14.2222, 14.2222],
+			x_length=14.2222,
+			y_range=[-8, 8],
+			y_length=8,
+		)
+		dot = Dot(
+			axes.coords_to_point(2, 1.7, 0),
+			radius=0.03,  # size
+			color=RED,  # color
+			fill_opacity=0
+		)
+		dot1 = Dot(
+			axes.coords_to_point(2.9, -3, 0),
+			radius=0.03,  # size
+			color=GREEN,  # color
+			fill_opacity=0
+		)
+		dot2 = Dot(
+			axes.coords_to_point(-4.5, 0, 0),
+			radius=0.03,  # size
+			color=BLUE,  # color
+			fill_opacity=0
+		)
+		dot3 = Dot(
+			axes.coords_to_point(2, 4),
+			radius=0.03,
+			color=RED,
+		)
+		triangle = always_redraw(lambda: Polygon(
+			dot.get_center(),
+			dot1.get_center(),
+			dot2.get_center(),
+			dot.get_center(),
+			stroke_color=PURPLE,
+			stroke_opacity=0.5,
+			fill_color=PURPLE,
+			fill_opacity=0.5,
+		).round_corners(radius=0.005))
+		PM1 = always_redraw(lambda: Dot(
+			point=(mediumpoint(V2D(dot.get_center()), V2D(dot1.get_center())).x,
+				   mediumpoint(V2D(dot.get_center()), V2D(dot1.get_center())).y,
+				   0),
+			radius=0.03,
+			color=GRAY
+		))
+		PM2 = always_redraw(lambda: Dot(
+			point=(mediumpoint(V2D(dot1.get_center()), V2D(dot2.get_center())).x,
+				   mediumpoint(V2D(dot1.get_center()), V2D(dot2.get_center())).y,
+				   0),
+			radius=0.03
+		))
+		PM3 = always_redraw(lambda: Dot(
+			point=(mediumpoint(V2D(dot.get_center()), V2D(dot2.get_center())).x,
+				   mediumpoint(V2D(dot.get_center()), V2D(dot2.get_center())).y,
+				   0),
+			radius=0.03
+		))
+		# DECLIVE DO PE 1
+		d1 = lambda: slope(
+			V2D(axes.point_to_coords(dot1.get_center())), V2D(axes.point_to_coords(dot2.get_center()))
+		)
+		f1 = lambda: foot(V2D(axes.point_to_coords(dot.get_center())), d1())
+		line = always_redraw(lambda: axes.plot(
+			lambda x: f1()[1] * x + f1()[0],
+			color=BLUE
+		))
+		#DECLIVE DO PE 2
+		d2 = lambda: slope(
+			V2D(axes.point_to_coords(dot.get_center())), V2D(axes.point_to_coords(dot2.get_center()))
+		)
+		f2 = lambda: foot(V2D(axes.point_to_coords(dot1.get_center())), d2())
+		line1 = always_redraw(lambda: axes.plot(
+			lambda x: f2()[1] * x + f2()[0],
+			color=BLUE
+		))
+		#DECLIVE DO PE 3
+		d3 = lambda: slope(
+			V2D(axes.point_to_coords(dot1.get_center())), V2D(axes.point_to_coords(dot.get_center()))
+		)
+		f3 = lambda: foot(V2D(axes.point_to_coords(dot2.get_center())), d3())
+		line2 = always_redraw(lambda: axes.plot(
+			lambda x: f3()[1] * x + f3()[0],
+			color=BLUE
+		))
+		# PE 1
+		p1 = lambda: intersection(
+			d1(), f1()[1], d1() * -axes.point_to_coords(dot1.get_center())[0] + axes.point_to_coords(dot1.get_center())[1], f1()[0]
+		)
+		pe1 = always_redraw(lambda: Dot(
+			point = axes.coords_to_point(p1().x, p1().y, 0 ), #axes.coords_to_point
+			radius = 0.03,
+			color = WHITE,
+		))
+		altura1 = always_redraw(lambda: Line(
+			start = axes.coords_to_point(p1().x, p1().y, 0 ),
+			end = dot.get_center(),
+			color= BLUE,
+			stroke_opacity=0.3,
+		))
+		#PE 2
+		p2 = lambda: intersection(
+			d2(), f2()[1], d2() * - axes.point_to_coords(dot2.get_center())[0] + axes.point_to_coords(dot2.get_center())[1], f2()[0]
+		)
+		pe2 = always_redraw(lambda: Dot(
+			point = axes.coords_to_point(p2().x, p2().y, 0 ),
+			radius=0.03,
+			color = WHITE,
+		))
+		altura2 = always_redraw(lambda: Line(
+			start=axes.coords_to_point(p2().x, p2().y, 0 ),
+			end=dot1.get_center(),
+			color=BLUE,
+			stroke_opacity=0.3,
+		))
+		#PE 3
+		p3 = lambda: intersection(
+			d3(), f3()[1], d3() * - axes.point_to_coords(dot.get_center())[0] + axes.point_to_coords(dot.get_center())[1], f3()[0]
+		)
+		pe3 = always_redraw(lambda: Dot(
+			point = axes.coords_to_point(p3().x, p3().y, 0 ),
+			radius=0.03,
+			color = WHITE,
+		))
+		altura3 = always_redraw(lambda: Line(
+			start=axes.coords_to_point(p3().x, p3().y, 0),
+			end=dot2.get_center(),
+			color=BLUE,
+			stroke_opacity=0.3,
+		))
+		ortoc = lambda: intersection(
+			f1()[1], f2()[1], f1()[0], f2()[0]
+		)
+		ortocentro = always_redraw(lambda: Dot(
+			point = axes.coords_to_point(ortoc().x, ortoc().y, 0 ),
+			radius=0.03,
+			color = BLUE,
+		))
+		med1 = lambda: perpendicular_bisector(
+			V2D(axes.point_to_coords(dot.get_center())), V2D(axes.point_to_coords(dot1.get_center()))
+		)
+		mediatriz = always_redraw(lambda: axes.plot(
+			lambda x: med1()[0] * x + med1()[1],
+			color=RED,
+		))
+		med2 = lambda: perpendicular_bisector(
+			V2D(axes.point_to_coords(dot1.get_center())), V2D(axes.point_to_coords(dot2.get_center()))
+		)
+		mediatriz1 = always_redraw(lambda: axes.plot(
+			lambda x: med2()[0] * x + med2()[1],
+			color=RED,
+		))
+		circ = lambda: intersection(
+			med1()[0], med2()[0], med1()[1], med2()[1]
+		)
+		circuncentro = always_redraw(lambda: Dot(
+			point = axes.coords_to_point(circ().x, circ().y, 0 ),
+			color = GREEN,
+		))
+		dot4 = always_redraw(lambda: Dot(
+			point = (
+				mediumpoint(V2D(axes.coords_to_point(ortoc().x, ortoc().y, 0 )), V2D(dot.get_center())).x,
+				mediumpoint(V2D(axes.coords_to_point(ortoc().x, ortoc().y, 0 )), V2D(dot.get_center())).y, 0
+					 ),
+			radius = 0.03,
+			color = YELLOW,
+		))
+		dot5 = always_redraw(lambda: Dot(
+			point=(
+				mediumpoint(V2D(axes.coords_to_point(ortoc().x, ortoc().y, 0)), V2D(dot1.get_center())).x,
+				mediumpoint(V2D(axes.coords_to_point(ortoc().x, ortoc().y, 0)), V2D(dot1.get_center())).y, 0
+			),
+			radius=0.03,
+			color=YELLOW,
+		))
+		dot6 = always_redraw(lambda: Dot(
+			point=(
+				mediumpoint(V2D(axes.coords_to_point(ortoc().x, ortoc().y, 0)), V2D(dot2.get_center())).x,
+				mediumpoint(V2D(axes.coords_to_point(ortoc().x, ortoc().y, 0)), V2D(dot2.get_center())).y, 0
+			),
+			radius=0.03,
+			color=YELLOW,
+		))
+		centro = lambda: mediumpoint(
+			circ(), ortoc()
+		)
+		raio = lambda: distance(
+			V2D(axes.coords_to_point(centro().x, centro().y, 0)),
+			V2D(PM1.get_center())
+		)
+		circle = always_redraw(lambda: Circle(
+			radius = raio(),
+			color = PINK,
+			stroke_opacity=0.4
+		).move_to(axes.coords_to_point(centro().x, centro().y, 0)))
+		center = always_redraw(lambda: Dot(
+			point = axes.coords_to_point(centro().x, centro().y, 0),
+			color=RED
+		))
