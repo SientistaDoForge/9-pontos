@@ -689,6 +689,7 @@ class Amir3(Scene):
 		circuncentro = always_redraw(lambda: Dot(
 			point = axes.coords_to_point(circ().x, circ().y, 0 ),
 			color = GREEN,
+			radius=0.03,
 		))
 		dot4 = always_redraw(lambda: Dot(
 			point = (
@@ -740,11 +741,23 @@ class Amir3(Scene):
 			"Desenhar os pontos médios dos vértices do triângulo.."
 		).shift((-3, 3, 0)).scale(0.5).to_edge(LEFT)
 		textoaltura = Text(
-			"Desenhar as alturas do triângulo"
+			"Desenhar as alturas do triângulo e marcar "
 		).shift((-3, 3, 0)).scale(0.5).to_edge(LEFT)
 		textointer = Text(
-			"e marcar os pontos de interseção das mesmas com o triangulo.."
-		).shift((-3, 2.6, 0)).scale(0.5).to_edge(LEFT)
+			"os pontos de interseção das mesmas com as arestas do triangulo.."
+		).shift((-3, 2.4, 0)).scale(0.5).to_edge(LEFT)
+		textortc = Text(
+			"Marcar o ortocentro na interseção das alturas do triangulo.."
+		).shift((-3, 3, 0)).scale(0.5).to_edge(LEFT)
+		textpm1 = Text(
+			"Marcar os pontos médios entre o ortocentro e os vértices do triangulo.."
+		).shift((-3, 3, 0)).scale(0.5).to_edge(LEFT)
+		textmed = Text(
+			"Desenhar as mediatrizes de duas arestas do triangulo"
+		).shift((-3, 3, 0)).scale(0.5).to_edge(LEFT)
+		textmed1 = Text(
+			"e marcar o circuncentro.."
+		).shift((-3, 2.4, 0)).scale(0.5).to_edge(LEFT)
 		self.play(
 			Write(texttrespontos),
 		)
@@ -780,13 +793,54 @@ class Amir3(Scene):
 			Write(textointer),
 		)
 		self.play(Create(altura1))
-		self.wait(0.5)
+		self.wait(0.3)
 		self.play(Create(altura2))
-		self.wait(0.5)
+		self.wait(0.3)
 		self.play(Create(altura3))
-		self.wait(0.5)
+		self.wait(0.3)
 		self.play(Create(pe1))
-		self.wait(0.5)
+		self.wait(0.3)
 		self.play(Create(pe2))
-		self.wait(0.5)
+		self.wait(0.3)
 		self.play(Create(pe3))
+		self.wait(2)
+		self.play(
+			Unwrite(textoaltura),
+			Unwrite(textointer),
+			Write(textortc)
+		)
+		self.wait(0.5)
+		self.play(
+			Create(ortocentro)
+		)
+		self.wait(2)
+		self.play(
+			Unwrite(textortc),
+			Write(textpm1)
+		)
+		self.wait(0.5)
+		self.play(Create(dot4))
+		self.wait(0.3)
+		self.play(Create(dot5))
+		self.wait(0.3)
+		self.play(Create(dot6))
+		self.wait(2)
+		self.play(
+			Unwrite(textpm1),
+			Write(textmed),
+			Write(textmed1)
+		)
+		self.wait(0.3)
+		self.play(
+			Create(mediatriz),
+			Create(mediatriz1)
+		)
+		self.wait(0.5)
+		self.play(
+			Create(circuncentro),
+		)
+		self.wait(0.5)
+		self.play(
+			FadeOut(mediatriz),
+			FadeOut(mediatriz1),
+		)
