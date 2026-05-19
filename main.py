@@ -672,9 +672,14 @@ class Amir3(Scene):
 		med1 = lambda: perpendicular_bisector(
 			V2D(axes.point_to_coords(dot.get_center())), V2D(axes.point_to_coords(dot1.get_center()))
 		)
-		mediatriz = always_redraw(lambda: axes.plot(
-			lambda x: med1()[0] * x + med1()[1],
-			color=RED,
+		pontofixe = lambda: intersection(
+			d3(), med1()[0],
+			d3() * - axes.point_to_coords(dot.get_center())[0] + axes.point_to_coords(dot.get_center())[1], med1()[1]
+		)
+		mediatriz = always_redraw(lambda: Line(
+			start = PM1.get_center(),
+			end = axes.coords_to_point(pontofixe().x, pontofixe().y, 0 ),
+			color = RED,
 		))
 		med2 = lambda: perpendicular_bisector(
 			V2D(axes.point_to_coords(dot1.get_center())), V2D(axes.point_to_coords(dot2.get_center()))
@@ -731,6 +736,9 @@ class Amir3(Scene):
 			point = axes.coords_to_point(centro().x, centro().y, 0),
 			color=RED
 		))
+		lapis = ImageMobject("lapis-removebg-preview")
+		lapis.scale(0.4)
+		lapis.rotate(PI/2)
 		texttrespontos = Text(
 			"Defenir três pontos no plano.."
 		).shift((-3, 3, 0)).scale(0.5).to_edge(LEFT)
@@ -738,7 +746,7 @@ class Amir3(Scene):
 			"Desenhar o triângulo que conecta os três pontos.."
 		).shift((-3, 3, 0)).scale(0.5).to_edge(LEFT)
 		textpm = Text(
-			"Desenhar os pontos médios dos vértices do triângulo.."
+			"Marcar os pontos médios dos vértices do triângulo.."
 		).shift((-3, 3, 0)).scale(0.5).to_edge(LEFT)
 		textoaltura = Text(
 			"Desenhar as alturas do triângulo e marcar "
@@ -761,13 +769,23 @@ class Amir3(Scene):
 		self.play(
 			Write(texttrespontos),
 		)
+		self.play(FadeIn(lapis))
 		self.wait(0.3)
 		self.play(Create(axes))
 		self.wait(1)
+		self.play(
+			lapis.animate.move_to(dot.get_center()).rotate(PI/3)
+		)
 		self.play(Create(dot))
 		self.wait(0.3)
+		self.play(
+			lapis.animate.move_to(dot1.get_center()).rotate(PI / 3)
+		)
 		self.play(Create(dot1))
 		self.wait(0.3)
+		self.play(
+			lapis.animate.move_to(dot2.get_center()).rotate(PI / 3)
+		)
 		self.play(Create(dot2))
 		self.wait(2)
 		self.play(
@@ -775,16 +793,35 @@ class Amir3(Scene):
 			Write(texttriangulo)
 				  )
 		self.wait(0.5)
-		self.play(Write(triangle), run_time=4, rate_func=linear)
+		self.play(
+			lapis.animate.move_to(dot.get_center()).rotate(-PI / 3)
+		)
+		self.play(
+			Write(triangle, run_time=7, rate_func=linear),
+			Succession(
+				ApplyMethod(lapis.move_to, dot1.get_center()),
+				ApplyMethod(lapis.move_to, dot2.get_center()),
+				ApplyMethod(lapis.move_to, dot.get_center()),
+			)
+			)
 		self.play(
 			Unwrite(texttriangulo),
 			Write(textpm)
 		)
 		self.wait(2)
+		self.play(
+			lapis.animate.move_to(PM1.get_center()).rotate(-PI / 3)
+		)
 		self.play(Create(PM1))
 		self.wait(0.5)
+		self.play(
+			lapis.animate.move_to(PM2.get_center()).rotate(-PI / 3)
+		)
 		self.play(Create(PM2))
 		self.wait(0.5)
+		self.play(
+			lapis.animate.move_to(PM3.get_center()).rotate(-PI / 3)
+		)
 		self.play(Create(PM3))
 		self.wait(2)
 		self.play(
@@ -792,16 +829,37 @@ class Amir3(Scene):
 			Write(textoaltura),
 			Write(textointer),
 		)
-		self.play(Create(altura1))
+		self.play(lapis.animate.move_to(axes.coords_to_point(p1().x, p1().y, 0 )).rotate(PI / -4))
+		self.play(
+			Create(altura1),
+			lapis.animate.move_to(dot.get_center()).rotate(PI / 4)
+		)
 		self.wait(0.3)
-		self.play(Create(altura2))
+		self.play(lapis.animate.move_to(axes.coords_to_point(p2().x, p2().y, 0)).rotate(PI / -4))
+		self.play(
+			Create(altura2),
+			lapis.animate.move_to(dot1.get_center()).rotate(PI / 4)
+		)
 		self.wait(0.3)
-		self.play(Create(altura3))
+		self.play(lapis.animate.move_to(axes.coords_to_point(p3().x, p3().y, 0)).rotate(PI / -4))
+		self.play(
+			Create(altura3),
+			lapis.animate.move_to(dot2.get_center()).rotate(PI / 4)
+		)
 		self.wait(0.3)
+		self.play(
+			lapis.animate.move_to(pe1.get_center()).rotate(PI / 3)
+		)
 		self.play(Create(pe1))
 		self.wait(0.3)
+		self.play(
+			lapis.animate.move_to(pe2.get_center()).rotate(PI / 3)
+		)
 		self.play(Create(pe2))
 		self.wait(0.3)
+		self.play(
+			lapis.animate.move_to(pe3.get_center()).rotate(PI / 3)
+		)
 		self.play(Create(pe3))
 		self.wait(2)
 		self.play(
@@ -811,6 +869,9 @@ class Amir3(Scene):
 		)
 		self.wait(0.5)
 		self.play(
+			lapis.animate.move_to(ortocentro.get_center()).rotate(PI / 3)
+		)
+		self.play(
 			Create(ortocentro)
 		)
 		self.wait(2)
@@ -819,10 +880,19 @@ class Amir3(Scene):
 			Write(textpm1)
 		)
 		self.wait(0.5)
+		self.play(
+			lapis.animate.move_to(dot4.get_center()).rotate(PI / 3)
+		)
 		self.play(Create(dot4))
 		self.wait(0.3)
+		self.play(
+			lapis.animate.move_to(dot5.get_center()).rotate(PI / 3)
+		)
 		self.play(Create(dot5))
 		self.wait(0.3)
+		self.play(
+			lapis.animate.move_to(dot6.get_center()).rotate(PI / 3)
+		)
 		self.play(Create(dot6))
 		self.wait(2)
 		self.play(
