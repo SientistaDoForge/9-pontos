@@ -653,8 +653,8 @@ class Amir3(Scene):
 			color = WHITE,
 		))
 		altura1 = always_redraw(lambda: Line(
-			start = axes.coords_to_point(p1().x, p1().y, 0 ),
-			end = dot.get_center(),
+			start = dot.get_center(),
+			end = axes.coords_to_point(p1().x, p1().y, 0 ),
 			color= BLUE,
 			stroke_opacity=0.3,
 		))
@@ -854,6 +854,52 @@ class Amir3(Scene):
 			angle=PI / 1.8,
 			arc_center=pontoaura2.get_center()
 		))
+		###
+		arc10 = always_redraw(lambda: Arc(
+			radius=5 * axes.get_x_unit_size(),
+			start_angle=-PI / 1.2,
+			angle=PI / 1.8,
+			arc_center=dot1.get_center()
+		))
+		pontoaura3 = always_redraw(lambda: Dot(
+			point=axes.coords_to_point(line_circle_intersection(
+										d2(),
+										d2() * -axes.point_to_coords(dot.get_center())[0] + axes.point_to_coords(dot.get_center())[1],
+										V2D(axes.point_to_coords(dot1.get_center())),
+										5)[0].x,
+					   line_circle_intersection(
+										d2(),
+										d2() * -axes.point_to_coords(dot.get_center())[0] + axes.point_to_coords(dot.get_center())[1],
+										V2D(axes.point_to_coords(dot1.get_center())),
+										5)[0].y
+									   , 0)
+		))
+		pontoaura4 = always_redraw(lambda: Dot(
+			point=axes.coords_to_point(
+				line_circle_intersection(
+										 d2(),
+										 d2() * -axes.point_to_coords(dot.get_center())[0] + axes.point_to_coords(dot.get_center())[1],
+										 V2D(axes.point_to_coords(dot1.get_center())),
+										 5)[1].x,
+				line_circle_intersection(
+										 d2(),
+										 d2() * -axes.point_to_coords(dot.get_center())[0] + axes.point_to_coords(dot.get_center())[1],
+										 V2D(axes.point_to_coords(dot1.get_center())),
+										 5)[1].y
+				, 0)
+		))
+		arc11 = always_redraw(lambda: Arc(
+			radius=1,
+			start_angle=+PI / 4,
+			angle=PI / 1.8,
+			arc_center=pontoaura3.get_center()
+		))
+		arc12 = always_redraw(lambda: Arc(
+			radius=1,
+			start_angle=0,
+			angle=PI / 1.8,
+			arc_center=pontoaura4.get_center()
+		))
 		lapis = ImageMobject("lapis-removebg-preview")
 		lapis.scale(0.4)
 		lapis.rotate(PI/2)
@@ -1000,18 +1046,36 @@ class Amir3(Scene):
 			Write(textoaltura),
 			Write(textointer),
 		)
-		self.play(compasso.animate.move_to(dot.get_center()).rotate( -PI / 1.8  + (PI / 3.2 - PI / 2 - PI / 3.5) +PI/1.2).scale((4.2 * axes.get_x_unit_size() * 2) / (2.3 * 2)))
+		self.play(compasso.animate.move_to(dot.get_center()).rotate( - PI / 1.8  - (PI / 3.2 - PI / 2 - PI / 3.5) * 1.03 -PI/1.2).scale((4.2 * axes.get_x_unit_size() * 2) / (2.3 * 2)))
+		compasso.add_updater(lambda mob, dt: mob.rotate(dt * speed))
 		self.play(Create(arc7,
 						 rate_func=linear,
 						 run_time=duration, ))
-		self.play(Create(arc8))
-		self.play(Create(arc9))
-		self.play(lapis.animate.move_to(axes.coords_to_point(p1().x, p1().y, 0 )).rotate(PI / -4))
+		compasso.clear_updaters()
+		self.play(compasso.animate.move_to(pontoaura.get_center())
+			.rotate(- PI / 1.8 + PI / 1.2 + PI /4)
+			.scale(2 / (4.2 * axes.get_x_unit_size() * 2)))
+		compasso.add_updater(lambda mob, dt: mob.rotate(dt * speed))
+		self.play(Create(arc8,
+						 rate_func=linear,
+						 run_time=duration, ))
+		compasso.clear_updaters()
+		self.play(compasso.animate.move_to(pontoaura2.get_center())
+				  .rotate(- PI / 1.8 - PI /4))
+		compasso.add_updater(lambda mob, dt: mob.rotate(dt * speed))
+		self.play(Create(arc9,
+						 rate_func=linear,
+						 run_time=duration, ))
+		compasso.clear_updaters()
+		self.play(lapis.animate.move_to(dot.get_center()).rotate(PI / -4))
 		self.play(
 			Create(altura1),
-			lapis.animate.move_to(dot.get_center()).rotate(PI / 4)
+			lapis.animate.move_to(axes.coords_to_point(p1().x, p1().y, 0 )).rotate(PI / 4)
 		)
 		self.wait(0.3)
+		self.play(arc10)
+		self.play(arc11)
+		self.play(arc12)
 		self.play(lapis.animate.move_to(axes.coords_to_point(p2().x, p2().y, 0)).rotate(PI / -4))
 		self.play(
 			Create(altura2),
