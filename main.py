@@ -179,7 +179,7 @@ class Main(Scene):
 			lambda x: f1()[1] * x + f1()[0],
 			color=BLUE
 		))
-		#DECLIVE DO PE 2
+		#DECLIVE DO PE 22
 		d2 = lambda: slope(
 			V2D(axes.point_to_coords(dot.get_center())), V2D(axes.point_to_coords(dot2.get_center()))
 		)
