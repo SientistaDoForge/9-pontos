@@ -1152,7 +1152,7 @@ class Amir5(Scene):
 		self.wait(4)
 		self.play(FadeOut(titulo4), FadeOut(img4))
 		self.wait(2)
-
+		#tetas
 
 
 class Amir3(Scene):
