@@ -2063,3 +2063,71 @@ class Amir3(Scene):
 		self.wait(0.5)
 		self.play(lapis.animate.move_to((-3, 0, 0)))
 		self.play(compasso.animate.move_to((-2, 0, 0)))
+
+class Amir6(Scene):
+    def construct(self):
+        img_intro = ImageMobject("Manim_icon.svg")
+        img_intro.scale(1)
+        img_intro.move_to((0, 0, 0))
+
+        self.play(FadeIn(img_intro))
+        self.wait(2)
+
+
+        self.play(
+            img_intro.animate
+            .scale(0.4)
+            .move_to((-5.5, 2.5, 0)),
+            run_time=1.5
+        )
+
+        self.wait(2)
+
+        bloco = Code(
+            code_string="""
+def V2D(p):
+    return Vector2D(p[0], p[1])
+def randPos(dot, ammount):
+    x = dot[0] + random.uniform(-ammount, ammount)
+    y = dot[1] + random.uniform(-ammount, ammount)
+    return x, y, dot[2]
+def slope(a: Vector2D, b: Vector2D):
+    d = (a.y - b.y)/(a.x - b.x)
+    return d
+def distance(a: Vector2D, b: Vector2D):
+    d = math.sqrt((a.x-b.x)2 + (a.y-b.y)2)
+    return d
+def mediumpoint(a: Vector2D, b: Vector2D):
+    d=Vector2D((a.x+b.x)/2,(a.y+b.y)/2)
+    return d
+def foot(ponto: Vector2D, declive):
+    d=-1/declive
+    b=-(d * ponto.x) + ponto.y
+    return b,d#pee
+def perpendicular_bisector(a: Vector2D, b: Vector2D):
+    mx = (a.x + b.x) / 2
+    my = (a.y + b.y) / 2
+    m = -(b.x - a.x) / (b.y - a.y)
+    b = my - m * mx
+    return m, b"""
+                 ,
+            language="Python",
+
+            background="window",
+
+        )
+        bloco.scale(0.5)
+        bloco.shift((3, 0, 0))
+
+        for linha in bloco.code_lines:
+            self.play(AddTextLetterByLetter(linha, time_per_char=0.07))
+
+        self.wait(2)
+        img1_intro = ImageMobject("Captura de ecrã 2026-05-21 231455")
+        img1_intro.scale(0.5)
+        img1_intro.move_to((-3.7, -1, 0))
+
+        self.play(FadeIn(img1_intro))
+
+
+        self.wait(2)
