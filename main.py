@@ -1579,12 +1579,89 @@ class Amir3(Scene):
 			angle=PI / 1.8,
 			arc_center=pontoaura6.get_center()
 		))
+		arc16 = always_redraw(lambda: Arc(
+			radius=0.2,
+			start_angle = PI/7,
+			angle=PI / 1.8,
+			arc_center=ortocentro.get_center()
+		))
+		arc17 = always_redraw(lambda: Arc(
+			radius=0.2,
+			start_angle = -PI / 1.15,
+			angle=PI / 1.8,
+			arc_center=dot.get_center()
+		))
+		linha4 = always_redraw(lambda: Line(
+			start=(circle_intersections(V2D(ortocentro.get_center()), 0.2, V2D(dot.get_center()), 0.2)[0].x,
+				   circle_intersections(V2D(ortocentro.get_center()), 0.2, V2D(dot.get_center()), 0.2)[0].y, 0),
+			end=(circle_intersections(V2D(ortocentro.get_center()), 0.2, V2D(dot.get_center()), 0.2)[1].x,
+				 circle_intersections(V2D(ortocentro.get_center()), 0.2, V2D(dot.get_center()), 0.2)[1].y, 0),
+		))
+		arc18 = always_redraw(lambda: Arc(
+			radius=1.4,
+			start_angle=-PI * 1.2 + PI / 2,
+			angle=PI / 1.8,
+			arc_center=ortocentro.get_center()
+		))
+		arc19 = always_redraw(lambda: Arc(
+			radius=1.4,
+			start_angle=-PI / 5 + PI / 2,
+			angle=PI / 1.8,
+			arc_center=dot1.get_center()
+		))
+		linha5 = always_redraw(lambda: Line(
+			start=(circle_intersections(V2D(ortocentro.get_center()), 1.4, V2D(dot1.get_center()), 1.4)[0].x,
+				   circle_intersections(V2D(ortocentro.get_center()), 1.4, V2D(dot1.get_center()), 1.4)[0].y, 0),
+			end=(circle_intersections(V2D(ortocentro.get_center()), 1.4, V2D(dot1.get_center()), 1.4)[1].x,
+				 circle_intersections(V2D(ortocentro.get_center()), 1.4, V2D(dot1.get_center()), 1.4)[1].y, 0),
+		))
+		arc20 = always_redraw(lambda: Arc(
+			radius=2,
+			start_angle=-PI * 1.2,
+			angle=PI / 1.8,
+			arc_center=ortocentro.get_center()
+		))
+		arc21 = always_redraw(lambda: Arc(
+			radius=2,
+			start_angle=-PI / 5,
+			angle=PI / 1.8,
+			arc_center=dot2.get_center()
+		))
+		linha6 = always_redraw(lambda: Line(
+			start=(circle_intersections(V2D(ortocentro.get_center()), 2, V2D(dot2.get_center()), 2)[0].x,
+				   circle_intersections(V2D(ortocentro.get_center()), 2, V2D(dot2.get_center()), 2)[0].y, 0),
+			end=(circle_intersections(V2D(ortocentro.get_center()), 2, V2D(dot2.get_center()), 2)[1].x,
+				 circle_intersections(V2D(ortocentro.get_center()), 2, V2D(dot2.get_center()), 2)[1].y, 0),
+		))
+		arc22 = always_redraw(lambda: Arc(
+			radius=1,
+			start_angle=-PI,
+			angle=PI / 1.8,
+			arc_center=ortocentro.get_center()
+		))
+		arc23 = always_redraw(lambda: Arc(
+			radius=1,
+			start_angle=0,
+			angle=PI / 1.8,
+			arc_center=circuncentro.get_center()
+		))
+		linha7 = always_redraw(lambda: Line(
+			start=(circle_intersections(V2D(ortocentro.get_center()), 1, V2D(circuncentro.get_center()), 1)[0].x,
+				   circle_intersections(V2D(ortocentro.get_center()), 1, V2D(circuncentro.get_center()), 1)[0].y, 0),
+			end=(circle_intersections(V2D(ortocentro.get_center()), 1, V2D(circuncentro.get_center()), 1)[1].x,
+				 circle_intersections(V2D(ortocentro.get_center()), 1, V2D(circuncentro.get_center()), 1)[1].y, 0),
+		))
+		linha8 = always_redraw(lambda: Line(
+			start = ortocentro.get_center(),
+			end = circuncentro.get_center()
+		))
 		lapis = ImageMobject("lapis-removebg-preview")
 		lapis.scale(0.4)
 		lapis.rotate(PI/2)
 		compasso = ImageMobject("compasso")
 		compasso.set(width = 1.5*2)
-		compasso.move_to((-5, -3, 0))
+		compasso.move_to((-5, -3, 3))
+		compasso.set_z_index(5)
 		texttrespontos = Text(
 			"Defenir três pontos no plano.."
 		).shift((-3, 3, 0)).scale(0.5).to_edge(LEFT)
@@ -1606,12 +1683,12 @@ class Amir3(Scene):
 		textpm1 = Text(
 			"Marcar os pontos médios entre o ortocentro e os vértices do triangulo.."
 		).shift((-3, 3, 0)).scale(0.5).to_edge(LEFT)
-		textmed = Text(
-			"Desenhar as mediatrizes de duas arestas do triangulo"
+		textcentro = Text(
+			"Definir o centro da circunferência de 9 pontos.."
 		).shift((-3, 3, 0)).scale(0.5).to_edge(LEFT)
-		textmed1 = Text(
-			"e marcar o circuncentro.."
-		).shift((-3, 2.4, 0)).scale(0.5).to_edge(LEFT)
+		textcircunferencia = Text(
+			"Desenahr a circunferência de 9 pontos.."
+		).shift((-3, 3, 0)).scale(0.5).to_edge(LEFT)
 		self.play(
 			Write(texttrespontos),
 		)
@@ -1831,7 +1908,6 @@ class Amir3(Scene):
 			lapis.animate.move_to(pe3.get_center()).rotate(PI / 3)
 		)
 		self.play(Create(pe3))
-		"""
 		self.wait(2)
 		self.play(
 			Unwrite(textoaltura),
@@ -1851,44 +1927,139 @@ class Amir3(Scene):
 			Write(textpm1)
 		)
 		self.wait(0.5)
+		self.play(compasso.animate.move_to(ortocentro.get_center())
+				  .rotate(- PI / 1.8 - PI + PI/7)
+				  .scale((0.2 * 2) / (1.2 * 2)))
+		compasso.add_updater(lambda mob, dt: mob.rotate(dt * speed))
+		self.play(Create(arc16,
+						rate_func = linear,
+						run_time = duration,
+				))
+		compasso.clear_updaters()
+		self.play(compasso.animate.move_to(dot.get_center())
+				  .rotate(- PI / 1.8 - PI / 7 -PI / 1.15))
+		compasso.add_updater(lambda mob, dt: mob.rotate(dt * speed))
+		self.play(Create(arc17,
+						rate_func = linear,
+						run_time = duration,
+				))
+		compasso.clear_updaters()
+		self.play(
+			lapis.animate.move_to(linha4.get_start()).rotate(PI / 3)
+		)
+		self.play(Create(linha4),
+		lapis.animate.move_to(linha4.get_end()).rotate(PI / -3)
+				  )
 		self.play(
 			lapis.animate.move_to(dot4.get_center()).rotate(PI / 3)
 		)
-		self.play(Create(dot4))
+		self.play(Create(dot4),
+				  FadeOut(arc16, arc17, linha4))
 		self.wait(0.3)
+		self.play(compasso.animate.move_to(ortocentro.get_center())
+				  .rotate(- PI / 1.8 + PI / 1.15 + (-PI * 1.2 + PI / 2))
+				  .scale((1.4 * 2) / (0.2 * 2)))
+		compasso.add_updater(lambda mob, dt: mob.rotate(dt * speed))
+		self.play(Create(arc18,
+						rate_func = linear,
+						run_time = duration,
+				))
+		compasso.clear_updaters()
+		self.play(compasso.animate.move_to(dot1.get_center())
+				  .rotate(- PI / 1.8 - (-PI * 1.2 + PI / 2) + (-PI / 5 + PI / 2)))
+		compasso.add_updater(lambda mob, dt: mob.rotate(dt * speed))
+		self.play(Create(arc19,
+						rate_func = linear,
+						run_time = duration,
+				))
+		compasso.clear_updaters()
+		self.play(
+			lapis.animate.move_to(linha5.get_start()).rotate(PI / 3)
+		)
+		self.play(Create(linha5),
+				  lapis.animate.move_to(linha5.get_end()).rotate(PI / -3))
 		self.play(
 			lapis.animate.move_to(dot5.get_center()).rotate(PI / 3)
 		)
-		self.play(Create(dot5))
+		self.play(Create(dot5),
+				  FadeOut(arc18, arc19, linha5))
 		self.wait(0.3)
+		self.play(compasso.animate.move_to(ortocentro.get_center())
+				  .rotate(- PI / 1.8 - (-PI / 5 + PI / 2) -PI * 1.2)
+				  .scale((2 * 2) / (1.4 * 2)))
+		compasso.add_updater(lambda mob, dt: mob.rotate(dt * speed))
+		self.play(Create(arc20,
+						rate_func = linear,
+						run_time = duration,
+				))
+		compasso.clear_updaters()
+		self.play(compasso.animate.move_to(dot2.get_center())
+				  .rotate(- PI / 1.8 + PI * 1.2 - PI / 5))
+		compasso.add_updater(lambda mob, dt: mob.rotate(dt * speed))
+		self.play(Create(arc21,
+						rate_func = linear,
+						run_time = duration,
+				))
+		compasso.clear_updaters()
+		self.play(
+			lapis.animate.move_to(linha6.get_start()).rotate(PI / 3)
+		)
+		self.play(Create(linha6),
+				  lapis.animate.move_to(linha6.get_end()).rotate(PI / -3))
 		self.play(
 			lapis.animate.move_to(dot6.get_center()).rotate(PI / 3)
 		)
-		self.play(Create(dot6))
+		self.play(Create(dot6),
+						 FadeOut(arc21, arc20, linha6))
 		self.wait(2)
 		self.play(
 			Unwrite(textpm1),
-			Write(textmed),
-			Write(textmed1)
+			Write(textcentro),
 		)
-		self.wait(0.3)
-		self.play(lapis.animate.move_to(PM1.get_center()).rotate(PI / -4))
+		self.play(compasso.animate.move_to(ortocentro.get_center())
+				  .rotate(- PI / 1.8 + PI / 5 - PI)
+				  .scale((1 * 2) / (2 * 2)))
+		compasso.add_updater(lambda mob, dt: mob.rotate(dt * speed))
+		self.play(Create(arc22,
+						rate_func = linear,
+						run_time = duration,
+				))
+		compasso.clear_updaters()
+		self.play(compasso.animate.move_to(circuncentro.get_center())
+				  .rotate(- PI / 1.8 + PI ))
+		compasso.add_updater(lambda mob, dt: mob.rotate(dt * speed))
+		self.play(Create(arc23,
+						rate_func = linear,
+						run_time = duration,
+				))
+		compasso.clear_updaters()
 		self.play(
-			Create(mediatriz),
-			lapis.animate.move_to(axes.coords_to_point(pontofixe().x, pontofixe().y, 0 )).rotate(PI / 4)
+			lapis.animate.move_to(linha7.get_start()).rotate(PI / 3)
 		)
-		self.play(lapis.animate.move_to(PM2.get_center()).rotate(PI / -4))
+		self.play(Create(linha7),
+				  lapis.animate.move_to(linha7.get_end()).rotate(PI / -3))
 		self.play(
-			Create(mediatriz1),
-			lapis.animate.move_to(axes.coords_to_point(pontotuff().x, pontotuff().y, 0)).rotate(PI / 4)
+			lapis.animate.move_to(linha8.get_start()).rotate(PI / 3)
 		)
+		self.play(Create(linha8),
+				  lapis.animate.move_to(linha8.get_end()).rotate(PI / -3))
+		self.play(lapis.animate.move_to(center.get_center()).rotate(PI / 3))
+		self.play(Create(center),
+				  FadeOut(arc22, arc23, linha7, linha8))
+		self.play(
+			Unwrite(textcentro),
+			Write(textcircunferencia)
+		)
+		self.play(compasso.animate.move_to(center.get_center())
+				  .rotate(- PI / 1.8)
+				  .scale( (raio() * 2) / (1 * 2)))
+		speed = 2 * PI
+		compasso.add_updater(lambda mob, dt: mob.rotate(dt * speed))
+		self.play(Create(circle,
+						rate_func = linear,
+						run_time = duration,
+				))
+		compasso.clear_updaters()
 		self.wait(0.5)
-		self.play(lapis.animate.move_to(circuncentro.get_center()).rotate(PI / -4))
-		self.play(
-			Create(circuncentro),
-		)
-		self.wait(0.5)
-		self.play(
-			FadeOut(mediatriz),
-			FadeOut(mediatriz1),
-		)"""
+		self.play(lapis.animate.move_to((-3, 0, 0)))
+		self.play(compasso.animate.move_to((-2, 0, 0)))
