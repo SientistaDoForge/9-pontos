@@ -119,7 +119,9 @@ def line_circle_intersection(m, intercept: float, center: Vector2D, radius: floa
     return Vector2D(x1, y1), Vector2D(x2, y2)
 class Main(Scene):
 	def construct(self):
-		text1 = Text("Ola a todos").shift((0, 2.7, 0))
+		text1 = Text("Ola a todos").shift((0, 3, 0))
+		text3 = Text("Projeto Circunferência de 9 Pontos").shift((0, 2.2, 0))
+		text2 = Text("Trabalho realizado por David Brás e Lourenço Martins").shift((0, 1.4, 0)).scale(0.8)
 		axes = Axes(
 			x_range=[-14.2222, 14.2222],
 			x_length=14.2222,
@@ -321,6 +323,8 @@ class Main(Scene):
 		))
 		# Step 1
 		self.play(Write(text1))
+		self.play(Write(text3))
+		self.play(Write(text2))
 		self.wait(6.7)
 		self.play(
 			Create(dot),
